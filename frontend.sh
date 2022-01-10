@@ -4,8 +4,8 @@
 # Email: 2274751790@qq.com
 # Github: https://github.com/galaxy-s10
 # Date: 2022-01-10 10:56:03
-# LastEditTime: 2022-01-10 12:06:30
-# Description:不区分环境的前端通用构建脚本
+# LastEditTime: 2022-01-10 17:52:21
+# Description: 不区分环境的前端通用构建脚本
 ###
 
 # 约定$1为任务名，$2为Jenkins工作区，$3为环境
