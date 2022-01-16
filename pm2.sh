@@ -4,14 +4,14 @@
 # Email: 2274751790@qq.com
 # Github: https://github.com/galaxy-s10
 # Date: 2022-01-10 17:50:30
-# LastEditTime: 2022-01-10 17:57:17
+# LastEditTime: 2022-01-16 15:40:10
 # Description: pm2维护脚本
 ###
 
-# 约定$1为任务名，$2为Jenkins工作区，$3为环境
-JOBNAME=$1 # 注意：JOBNAME=$1，这个等号左右不能有空格！
-WORKSPACE=$2
-ENV=$3
+# 约定$1为任务名, $2为环境, $3为Jenkins工作区
+JOBNAME=$1 # 注意: JOBNAME=$1,这个等号左右不能有空格！
+ENV=$2
+WORKSPACE=$3
 PUBLICDIR=/node
 
 if ! type pm2 >/dev/null 2>&1; then
@@ -25,5 +25,10 @@ fi
 # 否则的话约等于在其他目录执行npm run dev,如果所在的目录没有package.json文件就会报错！
 cd $PUBLICDIR/$JOBNAME
 
+echo 删除旧的pm2服务:
+pm2 del $JOBNAME
+
 echo 使用pm2维护:
-pm2 start npm --name $JOBNAME -- run dev
+pm2 start app.js --name $JOBNAME
+
+# pm2 start npm --name $JOBNAME -- run dev

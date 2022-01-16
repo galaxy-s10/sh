@@ -4,14 +4,14 @@
 # Email: 2274751790@qq.com
 # Github: https://github.com/galaxy-s10
 # Date: 2022-01-10 17:56:45
-# LastEditTime: 2022-01-10 18:00:15
-# Description: 区分环境的前端通用构建脚本
+# LastEditTime: 2022-01-16 15:34:03
+# Description: 前端通用构建脚本
 ###
 
-# 约定$1为任务名，$2为Jenkins工作区，$3为环境
-JOBNAME=$1 # 注意：JOBNAME=$1，这个等号左右不能有空格！
-WORKSPACE=$2
-ENV=$3
+# 约定$1为任务名, $2为环境, $3为Jenkins工作区
+JOBNAME=$1 # 注意: JOBNAME=$1,这个等号左右不能有空格！
+ENV=$2
+WORKSPACE=$3
 PUBLICDIR=/node
 
 echo 删除node_modules:
@@ -29,5 +29,14 @@ npm get registry
 echo 开始安装依赖:
 npm install
 
-echo 开始构建:
-npm run build:$ENV
+if [ $ENV = 'beta' ]; then
+    echo 开始构建测试环境:
+elif [ $ENV = 'preview' ]; then
+    echo 开始构建预发布环境:
+elif [ $ENV = 'prod' ]; then
+    echo 开始构建正式环境:
+else
+    echo 开始构建$ENV环境:
+fi
+
+npx cross-env VUE_APP_RELEASE_PUBLICPATH=$JOBNAME VUE_APP_RELEASE_ENV=$ENV webpack --config ./config/webpack.common.js --env production
