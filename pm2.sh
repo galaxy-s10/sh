@@ -4,7 +4,7 @@
 # Email: 2274751790@qq.com
 # Github: https://github.com/galaxy-s10
 # Date: 2022-01-10 17:50:30
-# LastEditTime: 2022-01-16 15:40:10
+# LastEditTime: 2022-01-16 17:08:17
 # Description: pm2维护脚本
 ###
 
@@ -15,10 +15,10 @@ WORKSPACE=$3
 PUBLICDIR=/node
 
 if ! type pm2 >/dev/null 2>&1; then
-  echo 'pm2未安装,先全局安装pm2'
+  echo pm2未安装,先全局安装pm2:
   npm i pm2 -g
 else
-  echo 'pm2已安装'
+  echo pm2已安装
 fi
 
 # 注意：要先进入项目所在的目录，然后再执行pm2命令!!!

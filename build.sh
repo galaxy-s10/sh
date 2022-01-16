@@ -4,7 +4,7 @@
 # Email: 2274751790@qq.com
 # Github: https://github.com/galaxy-s10
 # Date: 2022-01-10 17:56:45
-# LastEditTime: 2022-01-16 15:34:03
+# LastEditTime: 2022-01-16 17:09:24
 # Description: 前端通用构建脚本
 ###
 
@@ -25,6 +25,22 @@ npm config set registry http://registry.npm.taobao.org/
 
 echo 查看当前npm镜像:
 npm get registry
+
+if ! type yarn >/dev/null 2>&1; then
+    echo yarn未安装,先全局安装yarn
+    npm i yarn -g
+else
+    echo yarn已安装
+fi
+
+echo 查看yarn版本:
+yarn -v
+
+echo 设置yarn淘宝镜像:
+yarn config set registry https://registry.npm.taobao.org
+
+echo 查看当前yarn镜像:
+yarn config get registry
 
 echo 开始安装依赖:
 npm install
