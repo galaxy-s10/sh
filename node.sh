@@ -4,14 +4,15 @@
 # Email: 2274751790@qq.com
 # Github: https://github.com/galaxy-s10
 # Date: 2022-01-10 10:56:03
-# LastEditTime: 2022-01-16 17:16:27
-# Description: 不区分环境的node通用构建脚本
+# LastEditTime: 2022-04-08 12:39:09
+# Description: 区分环境的node通用构建脚本
 ###
 
-# 约定$1为任务名, $2为环境, $3为Jenkins工作区
+# 约定$1为任务名, $2为环境, $3为Jenkins工作区, $4为端口号
 JOBNAME=$1 # 注意: JOBNAME=$1,这个等号左右不能有空格！
 ENV=$2
 WORKSPACE=$3
+PORT=$4
 PUBLICDIR=/node
 
 if [ $ENV != 'null' ]; then
@@ -26,6 +27,7 @@ if [ $ENV != 'null' ]; then
         mkdir -p $PUBLICDIR/$JOBNAME/$ENV/
         cp -r $WORKSPACE/* $PUBLICDIR/$JOBNAME/$ENV/
     fi
+    sh $PUBLICDIR/$JOBNAME/$ENV/pm2.sh $JOBNAME $ENV $WORKSPACE $PORT
 else
     echo 当前环境是null
     if [ -d $PUBLICDIR/$JOBNAME ]; then
@@ -38,6 +40,5 @@ else
         mkdir -p $PUBLICDIR/$JOBNAME/
         cp -r $WORKSPACE/* $PUBLICDIR/$JOBNAME/
     fi
+    sh $PUBLICDIR/$JOBNAME/pm2.sh $JOBNAME $ENV $WORKSPACE $PORT
 fi
-
-sh $PUBLICDIR/$JOBNAME/pm2.sh $JOBNAME $ENV $WORKSPACE
