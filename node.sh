@@ -4,7 +4,7 @@
 # Email: 2274751790@qq.com
 # Github: https://github.com/galaxy-s10
 # Date: 2022-01-10 10:56:03
-# LastEditTime: 2022-08-15 09:13:31
+# LastEditTime: 2022-08-15 09:23:46
 # Description: 区分环境的node通用构建脚本
 ###
 
@@ -31,6 +31,8 @@ if [ $ENV != 'null' ]; then
         echo "$PUBLICDIR/$JOBNAME/$ENV/目录已经存在,先删除它,然后再重新创建它"
         rm -rf $PUBLICDIR/$JOBNAME/$ENV/
         mkdir -p $PUBLICDIR/$JOBNAME/$ENV/
+        # 因为ls -A $WORKSPACE拿到的结果是$WORKSPACE里面的东西，因此需要先进入这个$WORKSPACE目录，才能cp里面的文件
+        # 上面已经执行了cd $WORKSPACE
         cp -r $(ls -A $WORKSPACE | grep -v .git | xargs) $PUBLICDIR/$JOBNAME/$ENV/
     else
         echo "$PUBLICDIR/$JOBNAME/$ENV/目录还没有,创建它"
