@@ -6,7 +6,7 @@
 # Email: 2274751790@qq.com
 # FilePath: /github/sh/pm2.sh
 # Github: https://github.com/galaxy-s10
-# LastEditTime: 2022-10-16 11:03:29
+# LastEditTime: 2022-10-16 11:39:16
 # LastEditors: shuisheng
 ###
 
@@ -28,19 +28,28 @@ PORT=$4         #约定$4为端口号
 TAG=$5          #约定$5为git标签
 PUBLICDIR=/node #约定公共目录为/node
 
+echo 查看node版本:
+node -v
+
+echo 查看npm版本:
+npm -v
+
+echo 设置npm淘宝镜像:
+npm config set registry https://registry.npm.taobao.org/
+
+echo 查看当前npm镜像:
+npm get registry
+
 if ! type pm2 >/dev/null 2>&1; then
-  echo pm2未安装,先全局安装pm2
-  npm i pm2 -g
+  echo 'pm2未安装,先全局安装pm2'
+  npm install pm2 -g
+  pm2 update
 else
-  echo pm2已安装
+  echo 'pm2已安装'
 fi
 
-if ! type yarn >/dev/null 2>&1; then
-  echo yarn未安装,先全局安装yarn
-  npm i yarn -g
-else
-  echo yarn已安装
-fi
+echo 查看pm2版本:
+pm2 -v
 
 # 注意：要先进入项目所在的目录，然后再执行pm2命令!!!
 # 否则的话约等于在其他目录执行npm run dev,如果所在的目录没有package.json文件就会报错！
