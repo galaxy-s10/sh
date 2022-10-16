@@ -6,7 +6,7 @@
 # Email: 2274751790@qq.com
 # FilePath: /github/sh/build.sh
 # Github: https://github.com/galaxy-s10
-# LastEditTime: 2022-09-03 13:29:21
+# LastEditTime: 2022-10-16 08:39:34
 # LastEditors: shuisheng
 ###
 
@@ -61,3 +61,8 @@ else
 fi
 
 npx cross-env VUE_APP_RELEASE_PUBLICPATH=$JOBNAME VUE_APP_RELEASE_ENV=$ENV webpack --config ./config/webpack.common.js --env production
+
+echo 清除buff/cache:
+
+sync
+echo 3 >/proc/sys/vm/drop_caches

@@ -6,7 +6,7 @@
 # Email: 2274751790@qq.com
 # FilePath: /github/sh/frontend.sh
 # Github: https://github.com/galaxy-s10
-# LastEditTime: 2022-09-03 13:38:33
+# LastEditTime: 2022-10-16 08:38:48
 # LastEditors: shuisheng
 ###
 
@@ -44,3 +44,8 @@ else
         cp -r $WORKSPACE/dist/* $PUBLICDIR/$JOBNAME/
     fi
 fi
+
+echo 清除buff/cache:
+
+sync
+echo 3 >/proc/sys/vm/drop_caches

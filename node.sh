@@ -6,7 +6,7 @@
 # Email: 2274751790@qq.com
 # FilePath: /github/sh/node.sh
 # Github: https://github.com/galaxy-s10
-# LastEditTime: 2022-09-03 13:38:07
+# LastEditTime: 2022-10-16 08:37:56
 # LastEditors: shuisheng
 ###
 
@@ -28,7 +28,7 @@ echo git标签:$TAG
 echo 进入jenkins工作区:
 cd $WORKSPACE
 
-echo 将jenkins工作区的代码复制到node目录
+echo 将jenkins工作区的代码复制到node目录:
 
 if [ $ENV != 'null' ]; then
     echo 当前环境:$ENV
@@ -61,3 +61,8 @@ else
     echo "执行$PUBLICDIR/$JOBNAME/$ENV/pm2.sh"
     sh $PUBLICDIR/$JOBNAME/pm2.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
 fi
+
+echo 清除buff/cache:
+
+sync
+echo 3 >/proc/sys/vm/drop_caches

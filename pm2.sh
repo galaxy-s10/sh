@@ -6,7 +6,7 @@
 # Email: 2274751790@qq.com
 # FilePath: /github/sh/pm2.sh
 # Github: https://github.com/galaxy-s10
-# LastEditTime: 2022-09-03 13:28:40
+# LastEditTime: 2022-10-16 08:39:15
 # LastEditors: shuisheng
 ###
 
@@ -73,3 +73,8 @@ pm2 save
 
 # echo 使用pm2维护：
 # pm2 start $PUBLICDIR/$JOBNAME/app.js --name $JOBNAME
+
+echo 清除buff/cache:
+
+sync
+echo 3 >/proc/sys/vm/drop_caches
