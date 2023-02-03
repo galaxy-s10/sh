@@ -47,11 +47,11 @@ if [ $ENV != 'null' ]; then
         mkdir -p $PUBLICDIR/$JOBNAME/$ENV/
         # 因为ls -A $WORKSPACE拿到的结果是$WORKSPACE里面的东西，因此需要先进入这个$WORKSPACE目录，才能cp里面的文件
         # 上面已经执行了cd $WORKSPACE
-        cp -r $(ls -A $WORKSPACE | grep -v .git | xargs) $PUBLICDIR/$JOBNAME/$ENV/
+        cp -r $(ls -A $WORKSPACE | grep -wv .git | xargs) $PUBLICDIR/$JOBNAME/$ENV/
     else
         echo "$PUBLICDIR/$JOBNAME/$ENV/目录还没有,创建它"
         mkdir -p $PUBLICDIR/$JOBNAME/$ENV/
-        cp -r $(ls -A $WORKSPACE | grep -v .git | xargs) $PUBLICDIR/$JOBNAME/$ENV/
+        cp -r $(ls -A $WORKSPACE | grep -wv .git | xargs) $PUBLICDIR/$JOBNAME/$ENV/
     fi
     echo "执行$PUBLICDIR/$JOBNAME/$ENV/pm2.sh"
     sh $PUBLICDIR/$JOBNAME/$ENV/pm2.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
@@ -61,11 +61,11 @@ else
         echo "$PUBLICDIR/$JOBNAME/目录已经存在,先删除它,然后再重新创建它"
         rm -rf $PUBLICDIR/$JOBNAME/
         mkdir -p $PUBLICDIR/$JOBNAME/
-        cp -r $(ls -A $WORKSPACE | grep -v .git | xargs) $PUBLICDIR/$JOBNAME/
+        cp -r $(ls -A $WORKSPACE | grep -wv .git | xargs) $PUBLICDIR/$JOBNAME/
     else
         echo "$PUBLICDIR/$JOBNAME/目录还没有,创建它"
         mkdir -p $PUBLICDIR/$JOBNAME/
-        cp -r $(ls -A $WORKSPACE | grep -v .git | xargs) $PUBLICDIR/$JOBNAME/
+        cp -r $(ls -A $WORKSPACE | grep -wv .git | xargs) $PUBLICDIR/$JOBNAME/
     fi
     echo "执行$PUBLICDIR/$JOBNAME/$ENV/pm2.sh"
     sh $PUBLICDIR/$JOBNAME/pm2.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
