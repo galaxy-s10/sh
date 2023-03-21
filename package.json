@@ -1,0 +1,12 @@
+{
+  "name": "sh",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/galaxy-s10/sh"
+  },
+  "author": "shuisheng <2274751790@qq.com>",
+  "scripts": {
+    "copy": "node ./handleGiteeJenkins.js"
+  }
+}

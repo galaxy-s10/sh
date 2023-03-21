@@ -7,7 +7,7 @@
 # FilePath: /sh/node.sh
 # Github: https://github.com/galaxy-s10
 # LastEditors: shuisheng
-# LastEditTime: 2023-03-21 09:27:54
+# LastEditTime: 2023-03-21 22:00:58
 ###
 
 # 生成头部文件快捷键: ctrl+cmd+i

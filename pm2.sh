@@ -7,7 +7,7 @@
 # FilePath: /sh/pm2.sh
 # Github: https://github.com/galaxy-s10
 # LastEditors: shuisheng
-# LastEditTime: 2023-03-04 01:29:14
+# LastEditTime: 2023-03-21 22:04:30
 ###
 
 # 生成头部文件快捷键: ctrl+cmd+i
@@ -71,17 +71,26 @@ npm config set registry http://registry.npm.taobao.org/
 echo 查看当前npm镜像:
 npm get registry
 
-echo 查看yarn版本:
-yarn -v
+if ! type pnpm >/dev/null 2>&1; then
+  echo 'pnpm未安装,先全局安装pnpm'
+  npm i pnpm -g
+else
+  echo 'pnpm已安装'
+fi
 
-echo 设置yarn淘宝镜像:
-yarn config set registry https://registry.npm.taobao.org
+echo 查看pnpm版本:
+pnpm -v
 
-echo 查看当前yarn镜像:
-yarn config get registry
+echo 设置pnpm淘宝镜像:
+pnpm config set registry https://registry.npm.taobao.org/
+pnpm config set @billd:registry http://registry.hsslive.cn/
+
+echo 查看当前pnpm镜像:
+pnpm config get registry
+pnpm config get @billd:registry
 
 echo 开始安装依赖:
-yarn install
+pnpm install
 
 echo 删除旧的pm2服务:
 pm2 del $JOBNAME-$ENV-$PORT

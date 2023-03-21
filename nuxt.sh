@@ -7,7 +7,7 @@
 # FilePath: /sh/nuxt.sh
 # Github: https://github.com/galaxy-s10
 # LastEditors: shuisheng
-# LastEditTime: 2023-03-21 09:45:10
+# LastEditTime: 2023-03-21 22:01:11
 ###
 
 # 生成头部文件快捷键: ctrl+cmd+i
