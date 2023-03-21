@@ -7,7 +7,7 @@
 # FilePath: /sh/nuxt.sh
 # Github: https://github.com/galaxy-s10
 # LastEditors: shuisheng
-# LastEditTime: 2023-03-21 09:37:49
+# LastEditTime: 2023-03-21 09:45:10
 ###
 
 # 生成头部文件快捷键: ctrl+cmd+i
@@ -17,7 +17,7 @@
 # 最后, 服务器的/node/sh/frontend.sh会执行清除buff/cache操作
 
 # node项目, 一般流程是在jenkins里面执行build.sh进行构建,
-# 构建完成后会连接ssh, 执行/node/sh/node.sh, node.sh会将构建的完成资源复制到/node/xxx, 并且执行/node/xxx/node-pm2.sh
+# 构建完成后会连接ssh, 执行/node/sh/node.sh, node.sh会将构建的完成资源复制到/node/xxx, 并且执行/node/xxx/nuxt-pm2.sh
 # 最后, 服务器的/node/sh/node.sh会执行清除buff/cache操作
 
 # nuxt项目, 一般流程是在jenkins里面执行nuxt-build.sh进行构建,
@@ -61,8 +61,8 @@ if [ $ENV != 'null' ]; then
         mkdir -p $PUBLICDIR/$JOBNAME/$ENV/
         cp -r $(ls -A $WORKSPACE | grep -wv .git | xargs) $PUBLICDIR/$JOBNAME/$ENV/
     fi
-    echo "执行$PUBLICDIR/$JOBNAME/$ENV/node-pm2.sh"
-    sh $PUBLICDIR/$JOBNAME/$ENV/node-pm2.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
+    echo "执行$PUBLICDIR/$JOBNAME/$ENV/nuxt-pm2.sh"
+    sh $PUBLICDIR/$JOBNAME/$ENV/nuxt-pm2.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
 else
     echo 当前环境是null
     if [ -d $PUBLICDIR/$JOBNAME ]; then
@@ -75,8 +75,8 @@ else
         mkdir -p $PUBLICDIR/$JOBNAME/
         cp -r $(ls -A $WORKSPACE | grep -wv .git | xargs) $PUBLICDIR/$JOBNAME/
     fi
-    echo "执行$PUBLICDIR/$JOBNAME/$ENV/node-pm2.sh"
-    sh $PUBLICDIR/$JOBNAME/node-pm2.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
+    echo "执行$PUBLICDIR/$JOBNAME/$ENV/nuxt-pm2.sh"
+    sh $PUBLICDIR/$JOBNAME/nuxt-pm2.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
 fi
 
 echo 清除buff/cache:
