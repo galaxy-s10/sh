@@ -7,22 +7,14 @@
 # FilePath: /sh/docker.sh
 # Github: https://github.com/galaxy-s10
 # LastEditors: shuisheng
-# LastEditTime: 2023-03-21 22:00:39
+# LastEditTime: 2023-04-21 20:47:28
 ###
 
 # 生成头部文件快捷键: ctrl+cmd+i
 
-# 静态部署的项目, 一般流程是在jenkins里面执行build.sh进行构建,
-# 构建完成后会连接ssh, 执行/node/sh/frontend.sh, frontend.sh会将构建的完成资源复制到/node/xxx
-# 复制完成后, frontend.sh会执行清除buff/cache操作
-
-# node项目, 一般流程是在jenkins里面执行build.sh进行构建,
-# 构建完成后会连接ssh, 执行/node/sh/node.sh, node.sh会将构建的完成资源复制到/node/xxx, 并且执行/node/xxx/pm2.sh
-# 最后, node.sh会执行清除buff/cache操作
-
-# docker项目, 一般流程是在jenkins里面执行build.sh进行构建,
-# 构建完成后会连接ssh, 执行/node/sh/docker.sh, 并且执行/node/xxx/docker.sh
-# 最后, docker.sh会执行清除buff/cache操作
+# docker项目, 一般流程是在jenkins里面执行项目里的docker-build.sh进行构建,
+# 构建完成后会连接ssh, 执行/node/sh/docker.sh, 并且执行/node/xxx/docker-run.sh
+# 最后, 服务器的/node/sh/docker.sh会执行清除buff/cache操作
 
 # 注意: JOBNAME=$1, 这个等号左右不能有空格!
 JOBNAME=$1      #约定$1为任务名
@@ -49,13 +41,13 @@ if [ $ENV != 'null' ]; then
         echo "$PUBLICDIR/$JOBNAME/$ENV/目录已经存在,先删除它,然后再重新创建它"
         rm -rf $PUBLICDIR/$JOBNAME/$ENV/
         mkdir -p $PUBLICDIR/$JOBNAME/$ENV/
-        # 因为ls -A $WORKSPACE拿到的结果是$WORKSPACE里面的东西，因此需要先进入这个$WORKSPACE目录，才能cp里面的文件
-        # 上面已经执行了cd $WORKSPACE
-        cp -r $(ls -A $WORKSPACE | grep -wv .git | xargs) $PUBLICDIR/$JOBNAME/$ENV/
+        # 因为ls -A $WORKSPACE拿到的结果是$WORKSPACE里面的东西,因此需要先进入这个$WORKSPACE目录,才能cp里面的文件
+        # 最上面已经执行了cd $WORKSPACE,这里就不需要再进$WORKSPACE了
+        cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | grep -v dist | xargs) $PUBLICDIR/$JOBNAME/$ENV/
     else
         echo "$PUBLICDIR/$JOBNAME/$ENV/目录还没有,创建它"
         mkdir -p $PUBLICDIR/$JOBNAME/$ENV/
-        cp -r $(ls -A $WORKSPACE | grep -wv .git | xargs) $PUBLICDIR/$JOBNAME/$ENV/
+        cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | grep -v dist | xargs) $PUBLICDIR/$JOBNAME/$ENV/
     fi
     echo "执行$PUBLICDIR/$JOBNAME/$ENV/docker.sh"
     sh $PUBLICDIR/$JOBNAME/$ENV/docker.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
@@ -65,11 +57,11 @@ else
         echo "$PUBLICDIR/$JOBNAME/目录已经存在,先删除它,然后再重新创建它"
         rm -rf $PUBLICDIR/$JOBNAME/
         mkdir -p $PUBLICDIR/$JOBNAME/
-        cp -r $(ls -A $WORKSPACE | grep -wv .git | xargs) $PUBLICDIR/$JOBNAME/
+        cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | grep -v dist | xargs) $PUBLICDIR/$JOBNAME/
     else
         echo "$PUBLICDIR/$JOBNAME/目录还没有,创建它"
         mkdir -p $PUBLICDIR/$JOBNAME/
-        cp -r $(ls -A $WORKSPACE | grep -wv .git | xargs) $PUBLICDIR/$JOBNAME/
+        cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | grep -v dist | xargs) $PUBLICDIR/$JOBNAME/
     fi
     echo "执行$PUBLICDIR/$JOBNAME/$ENV/docker.sh"
     sh $PUBLICDIR/$JOBNAME/docker.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
