@@ -7,7 +7,7 @@
 # FilePath: /sh/docker.sh
 # Github: https://github.com/galaxy-s10
 # LastEditors: shuisheng
-# LastEditTime: 2023-04-21 20:47:28
+# LastEditTime: 2023-04-22 16:41:03
 ###
 
 # 生成头部文件快捷键: ctrl+cmd+i
@@ -43,28 +43,28 @@ if [ $ENV != 'null' ]; then
         mkdir -p $PUBLICDIR/$JOBNAME/$ENV/
         # 因为ls -A $WORKSPACE拿到的结果是$WORKSPACE里面的东西,因此需要先进入这个$WORKSPACE目录,才能cp里面的文件
         # 最上面已经执行了cd $WORKSPACE,这里就不需要再进$WORKSPACE了
-        cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | grep -v dist | xargs) $PUBLICDIR/$JOBNAME/$ENV/
+        cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | xargs) $PUBLICDIR/$JOBNAME/$ENV/
     else
         echo "$PUBLICDIR/$JOBNAME/$ENV/目录还没有,创建它"
         mkdir -p $PUBLICDIR/$JOBNAME/$ENV/
-        cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | grep -v dist | xargs) $PUBLICDIR/$JOBNAME/$ENV/
+        cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | xargs) $PUBLICDIR/$JOBNAME/$ENV/
     fi
-    echo "执行$PUBLICDIR/$JOBNAME/$ENV/docker.sh"
-    sh $PUBLICDIR/$JOBNAME/$ENV/docker.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
+    echo "执行$PUBLICDIR/$JOBNAME/$ENV/docker-run.sh"
+    sh $PUBLICDIR/$JOBNAME/$ENV/docker-run.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
 else
     echo 当前环境是null
     if [ -d $PUBLICDIR/$JOBNAME ]; then
         echo "$PUBLICDIR/$JOBNAME/目录已经存在,先删除它,然后再重新创建它"
         rm -rf $PUBLICDIR/$JOBNAME/
         mkdir -p $PUBLICDIR/$JOBNAME/
-        cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | grep -v dist | xargs) $PUBLICDIR/$JOBNAME/
+        cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | xargs) $PUBLICDIR/$JOBNAME/
     else
         echo "$PUBLICDIR/$JOBNAME/目录还没有,创建它"
         mkdir -p $PUBLICDIR/$JOBNAME/
-        cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | grep -v dist | xargs) $PUBLICDIR/$JOBNAME/
+        cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | xargs) $PUBLICDIR/$JOBNAME/
     fi
-    echo "执行$PUBLICDIR/$JOBNAME/$ENV/docker.sh"
-    sh $PUBLICDIR/$JOBNAME/docker.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
+    echo "执行$PUBLICDIR/$JOBNAME/$ENV/docker-run.sh"
+    sh $PUBLICDIR/$JOBNAME/docker-run.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
 fi
 
 echo 清除buff/cache:
