@@ -7,13 +7,13 @@
 # FilePath: /sh/docker.sh
 # Github: https://github.com/galaxy-s10
 # LastEditors: shuisheng
-# LastEditTime: 2023-04-22 16:41:03
+# LastEditTime: 2024-01-25 14:43:06
 ###
 
 # 生成头部文件快捷键: ctrl+cmd+i
 
 # docker项目, 一般流程是在jenkins里面执行项目里的docker-build.sh进行构建,
-# 构建完成后会连接ssh, 执行/node/sh/docker.sh, 并且执行/node/xxx/docker-run.sh
+# 构建完成后会连接ssh, 执行/node/sh/docker.sh, 并且执行/node/xxx/deploy/docker-run.sh
 # 最后, 服务器的/node/sh/docker.sh会执行清除buff/cache操作
 
 # 注意: JOBNAME=$1, 这个等号左右不能有空格!
@@ -49,8 +49,8 @@ if [ $ENV != 'null' ]; then
         mkdir -p $PUBLICDIR/$JOBNAME/$ENV/
         cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | xargs) $PUBLICDIR/$JOBNAME/$ENV/
     fi
-    echo "执行$PUBLICDIR/$JOBNAME/$ENV/docker-run.sh"
-    sh $PUBLICDIR/$JOBNAME/$ENV/docker-run.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
+    echo "执行$PUBLICDIR/$JOBNAME/$ENV/deploy/docker-run.sh"
+    sh $PUBLICDIR/$JOBNAME/$ENV/deploy/docker-run.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
 else
     echo 当前环境是null
     if [ -d $PUBLICDIR/$JOBNAME ]; then
@@ -63,8 +63,8 @@ else
         mkdir -p $PUBLICDIR/$JOBNAME/
         cp -r $(ls -A $WORKSPACE | grep -v .git | grep -v node_modules | xargs) $PUBLICDIR/$JOBNAME/
     fi
-    echo "执行$PUBLICDIR/$JOBNAME/$ENV/docker-run.sh"
-    sh $PUBLICDIR/$JOBNAME/docker-run.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
+    echo "执行$PUBLICDIR/$JOBNAME/$ENV/deploy/docker-run.sh"
+    sh $PUBLICDIR/$JOBNAME/deploy/docker-run.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
 fi
 
 echo 清除buff/cache:

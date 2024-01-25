@@ -7,7 +7,7 @@
 # FilePath: /sh/pm2.sh
 # Github: https://github.com/galaxy-s10
 # LastEditors: shuisheng
-# LastEditTime: 2023-03-21 22:04:30
+# LastEditTime: 2024-01-25 14:47:54
 ###
 
 # 生成头部文件快捷键: ctrl+cmd+i
@@ -100,6 +100,7 @@ echo 使用pm2维护：
 # pm2 start ./src/index.ts --name $JOBNAME-$ENV --interpreter ./node_modules/.bin/ts-node
 # pm2 start --name $JOBNAME-$ENV ts-node -- -P tsconfig.json ./src/index.ts
 npx cross-env NODE_APP_RELEASE_PROJECT_NAME=$JOBNAME NODE_APP_RELEASE_PROJECT_ENV=$ENV NODE_APP_RELEASE_PROJECT_PORT=$PORT pm2 start --name $JOBNAME-$ENV-$PORT ts-node -- -P tsconfig.json ./src/index.ts
+
 pm2 save
 
 # echo 使用pm2维护：

@@ -4,10 +4,10 @@
 # Date: 2022-08-15 09:10:56
 # Description: https://github.com/galaxy-s10/sh/
 # Email: 2274751790@qq.com
-# FilePath: /sh/billd-live.sh
+# FilePath: /sh/billd-live-pm2.sh
 # Github: https://github.com/galaxy-s10
 # LastEditors: shuisheng
-# LastEditTime: 2023-06-23 03:36:51
+# LastEditTime: 2024-01-25 14:47:44
 ###
 
 # 生成头部文件快捷键: ctrl+cmd+i
@@ -30,15 +30,30 @@ echo Jenkins工作区:$WORKSPACE
 echo 端口号:$PORT
 echo git标签:$TAG
 
-echo 进入node目录:
-cd $PUBLICDIR/$JOBNAME/$ENV
+echo 当前目录:$(pwd)
+
+echo 进入项目目录:
+if [ $ENV = 'beta' ]; then
+    cd $PUBLICDIR/$JOBNAME/$ENV
+elif [ $ENV = 'preview' ]; then
+    cd $PUBLICDIR/$JOBNAME/$ENV
+elif [ $ENV = 'prod' ]; then
+    cd $PUBLICDIR/$JOBNAME/$ENV
+else
+    cd $PUBLICDIR/$JOBNAME
+fi
+
+echo 删除旧文件:
+rm -rf $(ls -A | grep -v dist | xargs)
 
 echo 解压dist.tar:
 
 tar -zxvf dist.tar
 
 echo 当前环境:$ENV
-sh node-pm2.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
+sh ./deploy/node-pm2.sh $JOBNAME $ENV $WORKSPACE $PORT $TAG
+
+pm2 save
 
 echo 清除buff/cache:
 
